@@ -4,6 +4,9 @@ import { fetchGames } from '../services/api';
 import type { Game } from '../types/game';
 import styles from './ListaJogo.module.css';
 
+
+
+
 export default function ListaJogo() {
   const [games, setGames] = useState<Game[]>([]);
   const [search, setSearch] = useState('');
@@ -22,7 +25,7 @@ export default function ListaJogo() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <Link to="/home" className={styles.backLink}>← Voltar para Home</Link>
+        <Link to="/Home" className={styles.backLink}>← Voltar para Home</Link>
         <h1 className={styles.title}>Catálogo de Jogos (Free-to-Play)</h1>
       </header>
 
@@ -63,6 +66,9 @@ export default function ListaJogo() {
               </Link>
             </div>
           </div>
+
+          
+
         ))}
       </div>
     </div>

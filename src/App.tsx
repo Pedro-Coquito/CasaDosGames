@@ -15,6 +15,7 @@ export function App() {
   return (
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/Home" element={<PrivateRoute><Home /></PrivateRoute>} />
         <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
         <Route path="/jogos" element={<PrivateRoute><ListaJogo /></PrivateRoute>} />
         <Route path="/jogos/:id" element={<PrivateRoute><DetalhesJogo /></PrivateRoute>} />
