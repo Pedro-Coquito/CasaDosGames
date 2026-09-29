@@ -1,68 +1,67 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchGames } from '../services/api';
 import type { Game } from '../types/game';
-import { Link } from 'react-router-dom';
+import styles from './ListaJogo.module.css';
 
 export default function ListaJogo() {
   const [games, setGames] = useState<Game[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [search, setSearch] = useState<string>('');
-  const [selectedGenre, setSelectedGenre] = useState<string>('All');
+  const [search, setSearch] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
 
   useEffect(() => {
-    fetchGames()
-      .then(data => {
-        setGames(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
+    fetchGames().then(setGames);
   }, []);
 
-  // Filtragem por busca e gênero
   const filteredGames = games.filter(game => {
     const matchesSearch = game.title.toLowerCase().includes(search.toLowerCase());
-    const matchesGenre = selectedGenre === 'All' || game.genre === selectedGenre;
+    const matchesGenre = selectedGenre ? game.genre === selectedGenre : true;
     return matchesSearch && matchesGenre;
   });
 
-  if (loading) return <div style={{ textAlign: 'center', padding: '50px' }}>Carregando jogos...</div>;
-  if (error) return <div style={{ textAlign: 'center', color: 'red', padding: '50px' }}>Erro: {error}</div>;
-
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>Catálogo de Jogos (Free-to-Play)</h1>
-      <Link to="/">Voltar para Home</Link>
-      
-      <div style={{ margin: '20px 0', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <Link to="/home" className={styles.backLink}>← Voltar para Home</Link>
+        <h1 className={styles.title}>Catálogo de Jogos (Free-to-Play)</h1>
+      </header>
+
+      <div className={styles.filtersContainer}>
         <input 
           type="text" 
           placeholder="Pesquisar por nome..." 
-          value={search} 
-          onChange={e => setSearch(e.target.value)} 
-          style={{ padding: '8px', width: '250px' }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className={styles.searchInput}
         />
-        <select value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)} style={{ padding: '8px' }}>
-          <option value="All">Todos os Gêneros</option>
+        
+        <select 
+          value={selectedGenre} 
+          onChange={(e) => setSelectedGenre(e.target.value)}
+          className={styles.selectInput}
+        >
+          <option value="">Todos os Gêneros</option>
           <option value="MMORPG">MMORPG</option>
           <option value="Shooter">Shooter</option>
-          <option value="Action RPG">Action RPG</option>
           <option value="Strategy">Strategy</option>
+          <option value="MOBA">MOBA</option>
         </select>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '20px' }}>
+      <div className={styles.grid}>
         {filteredGames.map(game => (
-          <div key={game.id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <div>
-              <img src={game.thumbnail} alt={game.title} style={{ width: '100%', borderRadius: '4px' }} />
+          <div key={game.id} className={styles.card}>
+            <img src={game.thumbnail} alt={game.title} />
+            <div className={styles.cardContent}>
+              <span className={styles.genreBadge}>{game.genre}</span>
               <h3>{game.title}</h3>
-              <p style={{ fontSize: '14px', color: '#666' }}>{game.genre}</p>
+              <p>{game.short_description}</p>
             </div>
-            <Link to={`/jogos/${game.id}`} state={{ game }} style={{ textDecoration: 'none', backgroundColor: '#28a745', color: '#fff', padding: '8px', textAlign: 'center', borderRadius: '4px', marginTop: '10px' }}>Ver Detalhes</Link>
+            <div className={styles.cardFooter}>
+              <Link to={`/jogos/${game.id}`} state={{ game }} className={styles.detailsButton}>
+                Ver Detalhes
+              </Link>
+            </div>
           </div>
         ))}
       </div>

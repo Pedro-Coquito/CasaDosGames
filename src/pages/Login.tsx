@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MOCKED_USERS } from '../Data/data';
+import styles from './Login.module.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -8,27 +10,57 @@ export default function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
+
+    if (!email || !password) {
+      alert('Preencha todos os campos!');
+      return;
+    }
+
+    const savedPassword = MOCKED_USERS[email];
+    if (savedPassword && savedPassword === password) {
+      // Se estiver correto, salva e navega
       localStorage.setItem('isLogged', 'true');
+      localStorage.setItem('userEmail', email);
       navigate('/');
     } else {
-      alert('Preencha todos os campos!');
+      // Se estiver errado, avisa e NÃO deixa prosseguir
+      alert('E-mail ou senha inválidos!');
+      return;
     }
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'sans-serif' }}>
-      <form onSubmit={handleLogin} style={{ padding: '2rem', border: '1px solid #ccc', borderRadius: '8px', width: '300px' }}>
-        <h2>Login do Sistema</h2>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>E-mail:</label><br />
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} style={{ width: '100%', padding: '8px' }} placeholder="admin@email.com" />
+    <div className={styles.container}>
+      <form onSubmit={handleLogin} className={styles.form}>
+        <h2 className={styles.title}>Login do Sistema</h2>
+        
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>E-mail:</label>
+          <br />
+          <input 
+            type="email" 
+            value={email} 
+            onChange={e => setEmail(e.target.value)} 
+            className={styles.input} 
+            placeholder="admin@email.com" 
+          />
         </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Senha:</label><br />
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} style={{ width: '100%', padding: '8px' }} placeholder="******" />
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Senha:</label>
+          <br />
+          <input 
+            type="password" 
+            value={password} 
+            onChange={e => setPassword(e.target.value)} 
+            className={styles.input} 
+            placeholder="******" 
+          />
         </div>
-        <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: '#white', border: 'none', borderRadius: '4px' }}>Entrar</button>
+
+        <button type="submit" className={styles.button}>
+          Entrar
+        </button>
       </form>
     </div>
   );

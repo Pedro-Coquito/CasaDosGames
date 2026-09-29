@@ -1,5 +1,6 @@
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import type { Game } from '../types/game';
+import styles from './DetalhesJogo.module.css';
 
 export default function DetalhesJogo() {
   const location = useLocation();
@@ -8,22 +9,43 @@ export default function DetalhesJogo() {
 
   if (!game) {
     return (
-      <div style={{ padding: '20px' }}>
+      <div className={styles.errorContainer}>
         <p>Nenhum jogo selecionado ou dados perdidos.</p>
-        <button onClick={() => navigate('/jogos')}>Voltar para a listagem</button>
+        <button onClick={() => navigate('/jogos')} className={styles.errorButton}>
+          Voltar para a listagem
+        </button>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>
-      <Link to="/jogos">← Voltar para a listagem</Link>
-      <h1>{game.title}</h1>
-      <img src={game.thumbnail} alt={game.title} style={{ width: '100%', borderRadius: '8px' }} />
-      <p><strong>Gênero:</strong> {game.genre}</p>
-      <p><strong>Plataforma:</strong> {game.platform}</p>
-      <p><strong>Descrição:</strong> {game.short_description}</p>
-      <a href={game.game_url} target="_blank" rel="noreferrer" style={{ display: 'inline-block', padding: '10px 15px', backgroundColor: '#007bff', color: '#fff', textDecoration: 'none', borderRadius: '4px' }}>Acessar Jogo Oficial</a>
+    <div className={styles.container}>
+      <Link to="/jogos" className={styles.backLink}>← Voltar para a listagem</Link>
+      
+      <h1 className={styles.title}>{game.title}</h1>
+      
+      <img src={game.thumbnail} alt={game.title} className={styles.thumbnail} />
+      
+      <p className={styles.paragraph}>
+        <strong>Gênero:</strong> {game.genre}
+      </p>
+      
+      <p className={styles.paragraph}>
+        <strong>Plataforma:</strong> {game.platform}
+      </p>
+      
+      <p className={styles.paragraph}>
+        <strong>Descrição:</strong> {game.short_description}
+      </p>
+      
+      <a 
+        href={game.game_url} 
+        target="_blank" 
+        rel="noreferrer" 
+        className={styles.externalButton}
+      >
+        Acessar Jogo Oficial
+      </a>
     </div>
   );
-}
+} 

@@ -1,0 +1,56 @@
+/* Home.module.css */
+.container {
+  padding: 40px;
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.title {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.description {
+  color: #666;
+  font-size: 16px;
+}
+
+.actionsContainer {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.catalogLink {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 15px;
+  transition: background-color 0.2s;
+}
+
+.catalogLink:hover {
+  background-color: #0056b3;
+}
+
+.logoutButton {
+  padding: 12px 20px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #c82333;
+}
