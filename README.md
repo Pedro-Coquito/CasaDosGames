@@ -30,5 +30,5 @@ yarn install
 ```
 
 # Alunos: 
-Matheus soares Simao e Pedro Cavalcanti Coquito
+Matheus Soares, Pedro Cavalcanti Coquito, Yan mendonça
           
